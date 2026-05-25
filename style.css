@@ -129,3 +129,24 @@ body {
 .form-group button[type="submit"]:active {
     transform: scale(0.98); /* Pequeño efecto de pulsación al hacer clic */
 }
+
+/* Estilo para los textos de error debajo de los inputs */
+.error-mensaje {
+    color: #ef4444; /* Rojo vibrante */
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: block;
+    min-height: 18px; /* Evita que el formulario "salte" cuando aparece el texto */
+}
+
+/* Estilo para el borde del input cuando hay un error */
+.form-group input.input-error,
+.form-group select.input-error {
+    border-color: #ef4444;
+}
+
+/* Estado de enfoque cuando el input tiene un error */
+.form-group input.input-error:focus,
+.form-group select.input-error:focus {
+    box-shadow: 0 0 0 3px #fca5a5;
+}
