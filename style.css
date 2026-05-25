@@ -1,0 +1,131 @@
+/* ==========================================================================
+   1. Variables y Configuración General
+   ========================================================================== */
+:root {
+    --primary-color: #4f46e5;       /* Azul índigo moderno */
+    --primary-hover: #4338ca;       /* Azul más oscuro para el hover */
+    --bg-color: #f3f4f6;            /* Gris claro de fondo para la pantalla */
+    --card-bg: #ffffff;             /* Fondo blanco para el formulario */
+    --text-main: #1f2937;           /* Gris oscuro para texto principal */
+    --text-muted: #4b5563;          /* Gris medio para etiquetas */
+    --border-color: #d1d5db;        /* Gris claro para los bordes */
+    --border-focus: #a5b4fc;        /* Color de enfoque para los inputs */
+    --border-radius: 8px;           /* Bordes redondeados consistentes */
+    --transition: all 0.3s ease;    /* Transición suave para interactividad */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   2. Contenedor de la Sección (Tarjeta)
+   ========================================================================== */
+.formulario-registro {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 450px;
+}
+
+.formulario-registro h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    text-align: center;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   3. Elementos del Formulario
+   ========================================================================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* Estilos compartidos para inputs y select */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: var(--text-main);
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    outline: none;
+    transition: var(--transition);
+    appearance: none; /* Remueve estilos nativos extraños en algunos navegadores */
+}
+
+/* Estilo específico para el select para agregar una flecha personalizada */
+.form-group select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px;
+    padding-right: 40px; /* Espacio para que el texto no pise la flecha */
+    cursor: pointer;
+}
+
+/* Estado Focus (Cuando el usuario hace clic en el campo) */
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--border-focus);
+}
+
+/* Placeholder en gris más tenue */
+::placeholder {
+    color: #9ca3af;
+    opacity: 1;
+}
+
+/* ==========================================================================
+   4. Botón de Envío
+   ========================================================================== */
+.form-group button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+}
+
+.form-group button[type="submit"]:hover {
+    background-color: var(--primary-hover);
+}
+
+.form-group button[type="submit"]:active {
+    transform: scale(0.98); /* Pequeño efecto de pulsación al hacer clic */
+}
