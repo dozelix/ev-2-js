@@ -33,17 +33,21 @@ const esCorreoCorporativoValido = (correo) => {
 // 3. Funciones de Interfaz de Usuario (UI)
 // ==========================================================================
 
-// Muestra el mensaje de error y añade una clase visual al input
+// Muestra el mensaje de error de forma segura
 const mostrarError = (input, idError, mensaje) => {
     const contenedorError = document.getElementById(idError);
-    contenedorError.textContent = mensaje;
-    input.classList.add('input-error'); // Puedes usar esta clase en CSS para pintar el borde rojo
+    if (contenedorError) {
+        contenedorError.textContent = mensaje;
+    }
+    input.classList.add('input-error');
 };
 
-// Limpia el mensaje de error
+// Limpia el mensaje de error de forma segura
 const limpiarError = (input, idError) => {
     const contenedorError = document.getElementById(idError);
-    contenedorError.textContent = "";
+    if (contenedorError) {
+        contenedorError.textContent = "";
+    }
     input.classList.remove('input-error');
 };
 
@@ -87,6 +91,17 @@ const validarApellido = () => {
     return true;
 };
 
+// Nueva función para validar el elemento SELECT del cargo
+const validarCargo = () => {
+    const valor = selectCargo.value;
+    if (esVacio(valor)) {
+        mostrarError(selectCargo, 'error-cargo', 'Debes seleccionar un cargo válido de la lista 📋');
+        return false;
+    }
+    limpiarError(selectCargo, 'error-cargo');
+    return true;
+};
+
 const validarCorreo = () => {
     const valor = inputCorreo.value;
     if (esVacio(valor)) {
@@ -103,18 +118,16 @@ const validarCorreo = () => {
 
 // Revisa todo el formulario para habilitar o deshabilitar el botón de envío
 const controlarEstadoBoton = () => {
-    // Al usar "input", no queremos molestar al usuario con errores antes de que termine de escribir,
-    // así que solo comprobamos si los datos básicos estructurales están bien para activar el botón.
     const nombreOk = cumpleLargoMinimo(inputNombre.value, 3) && !contieneNumeros(inputNombre.value);
     const apellidoOk = cumpleLargoMinimo(inputApellido.value, 3) && !contieneNumeros(inputApellido.value);
-    const cargoOk = !esVacio(selectCargo.value);
+    const cargoOk = !esVacio(selectCargo.value); // Verifica que no sea el string vacío por defecto
     const correoOk = esCorreoCorporativoValido(inputCorreo.value);
 
     if (nombreOk && apellidoOk && cargoOk && correoOk) {
         botonEnviar.disabled = false;
         botonEnviar.style.opacity = '1';
     } else {
-        // Opcional: Puedes deshabilitarlo visualmente
+        // Opcional: mantener el botón deshabilitado visualmente
         // botonEnviar.disabled = true;
     }
 };
@@ -126,20 +139,21 @@ const controlarEstadoBoton = () => {
 // Validar en tiempo real cuando el usuario escribe o cambia algo
 inputNombre.addEventListener('input', () => { validarNombre(); controlarEstadoBoton(); });
 inputApellido.addEventListener('input', () => { validarApellido(); controlarEstadoBoton(); });
-selectCargo.addEventListener('change', () => { validarCargo(); controlarEstadoBoton(); });
+// Para elementos select se usa el evento 'change' en vez de 'input'
+selectCargo.addEventListener('change', () => { validarCargo(); controlarEstadoBoton(); }); 
 inputCorreo.addEventListener('input', () => { validarCorreo(); controlarEstadoBoton(); });
 
 // Evento al intentar enviar el formulario
 formulario.addEventListener('submit', (evento) => {
     evento.preventDefault(); // Evita que la página se recargue 🛑
 
-    // Ejecutamos todas las validaciones una última vez de manera estricta
+    // Ejecutamos todas las validaciones (incluido el cargo) de manera estricta
     const esFormularioValido = validarNombre() && validarApellido() && validarCargo() && validarCorreo();
 
     if (esFormularioValido) {
         // Creamos el objeto con los datos del nuevo empleado
         const nuevoEmpleado = {
-            id: Date.now(), // ID único basado en el tiempo
+            id: Date.now(), 
             nombre: inputNombre.value.trim(),
             apellido: inputApellido.value.trim(),
             cargo: selectCargo.value,
