@@ -196,12 +196,30 @@ body {
     transition: background-color 0.2s ease;
 }
 
-/* Estilo para cuando la tabla está vacía (opcional) */
+/* Estilo para cuando la tabla está vacía o filtrada sin resultados */
 .tabla-colaboradores tbody:empty::after {
-    content: "No hay colaboradores registrados actualmente.";
+    content: "No hay colaboradores que coincidan con la búsqueda.";
     display: block;
     padding: 20px;
     color: var(--text-muted);
     font-style: italic;
     text-align: center;
+}
+
+/* Estilos para el buscador superior */
+#buscador {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: var(--text-main);
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    outline: none;
+    transition: var(--transition);
+}
+
+#buscador:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--border-focus);
 }
