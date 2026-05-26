@@ -47,7 +47,7 @@ const limpiarError = (input, idError) => {
     input.classList.remove('input-error');
 };
 
-// MODIFICACIÓN: Ahora la función acepta un parámetro por defecto (la lista completa)
+// MODIFICACIÓN: Se añade el botón eliminar dinámicamente en el renderizado
 const renderizarTabla = (listaColaboradores = baseDatosEmpleados) => {
     if (!tablaCuerpo) return;
 
@@ -61,10 +61,40 @@ const renderizarTabla = (listaColaboradores = baseDatosEmpleados) => {
             <td>${colaborador.apellido}</td>
             <td>${colaborador.cargo}</td>
             <td>${colaborador.correoCorporativo}</td>
+            <td>
+                <button class="btn-eliminar" data-id="${colaborador.id}">Eliminar 🗑️</button>
+            </td>
         `;
+
+        // Asignamos el evento click directamente al botón de esta fila
+        const botonEliminar = fila.querySelector('.btn-eliminar');
+        botonEliminar.addEventListener('click', () => {
+            eliminarColaborador(colaborador.id);
+        });
 
         tablaCuerpo.appendChild(fila);
     });
+};
+
+// NUEVA FUNCIÓN: Elimina al colaborador del arreglo y actualiza la UI
+const eliminarColaborador = (id) => {
+    // Confirmación opcional para mejorar la experiencia de usuario
+    const confirmar = confirm("¿Estás seguro de que deseas eliminar este colaborador?");
+    
+    if (confirmar) {
+        // 1. Buscamos el índice del elemento en el arreglo original usando el ID
+        const indice = baseDatosEmpleados.findIndex(emp => emp.id === id);
+        
+        if (indice !== -1) {
+            // 2. Removemos el elemento del arreglo original
+            baseDatosEmpleados.splice(indice, 1);
+            
+            // 3. Volvemos a filtrar/renderizar para que respete si el usuario tenía algo escrito en el buscador
+            filtrarColaboradores();
+            
+            console.log(`Colaborador con ID ${id} eliminado. Array actual:`, baseDatosEmpleados);
+        }
+    }
 };
 
 // NUEVA FUNCIÓN: Filtra en tiempo real usando métodos de arreglos (filter e includes)
