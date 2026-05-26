@@ -10,6 +10,9 @@ const selectCargo = document.getElementById('cargo');
 const inputCorreo = document.getElementById('correo');
 const botonEnviar = formulario.querySelector('button[type="submit"]');
 
+// REFERENCIA A LA TABLA: Asegúrate de que tu HTML tenga un <tbody> con esta clase o ID
+const tablaCuerpo = document.querySelector('.tabla-colaboradores tbody') || document.getElementById('tablaEmpleadosBody');
+
 // ==========================================================================
 // 2. Funciones Reutilizables de Validación (Lógica Pura)
 // ==========================================================================
@@ -30,7 +33,7 @@ const esCorreoCorporativoValido = (correo) => {
 };
 
 // ==========================================================================
-// 3. Funciones de Interfaz de Usuario (UI)
+// 3. Funciones de Interfaz de Usuario (UI) y Renderizado
 // ==========================================================================
 
 // Muestra el mensaje de error de forma segura
@@ -49,6 +52,31 @@ const limpiarError = (input, idError) => {
         contenedorError.textContent = "";
     }
     input.classList.remove('input-error');
+};
+
+// FUNCIÓN DEDICADA: Renderiza la tabla dinámicamente con los colaboradores actuales
+const renderizarTabla = () => {
+    // Si no se encuentra el elemento de la tabla en el DOM, detenemos la ejecución
+    if (!tablaCuerpo) return;
+
+    // Limpiamos el contenido previo para evitar que se dupliquen las filas
+    tablaCuerpo.innerHTML = '';
+
+    // Recorremos el arreglo completo para generar las filas una por una
+    baseDatosEmpleados.forEach((colaborador) => {
+        const fila = document.createElement('tr');
+
+        // Construimos las celdas usando las propiedades exactas de tu objeto empleado
+        fila.innerHTML = `
+            <td>${colaborador.nombre}</td>
+            <td>${colaborador.apellido}</td>
+            <td>${colaborador.cargo}</td>
+            <td>${colaborador.correoCorporativo}</td>
+        `;
+
+        // Agregamos la fila armada al cuerpo de la tabla
+        tablaCuerpo.appendChild(fila);
+    });
 };
 
 // ==========================================================================
@@ -162,6 +190,9 @@ formulario.addEventListener('submit', (evento) => {
 
         // Guardamos en nuestro array de documentos 📥
         baseDatosEmpleados.push(nuevoEmpleado);
+
+        // ACTUALIZACIÓN DINÁMICA: Invocamos la función para refrescar la tabla sin recargar
+        renderizarTabla();
 
         console.log('¡Registro guardado con éxito! Array actual:', baseDatosEmpleados);
         alert('🎉 Registro guardado exitosamente en el sistema.');
