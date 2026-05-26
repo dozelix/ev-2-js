@@ -25,12 +25,13 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Alinea el formulario y la tabla uno abajo del otro */
     align-items: center;
+    justify-content: flex-start; /* Permite que fluya bien si hay muchos registros */
     min-height: 100vh;
-    padding: 20px;
+    padding: 40px 20px;
+    gap: 30px; /* Separa de forma limpia el formulario de la tabla */
 }
-
 /* ==========================================================================
    2. Contenedor de la Sección (Tarjeta)
    ========================================================================== */
@@ -149,4 +150,58 @@ body {
 .form-group input.input-error:focus,
 .form-group select.input-error:focus {
     box-shadow: 0 0 0 3px #fca5a5;
+}
+
+/* ==========================================================================
+   5. Tabla de Colaboradores Dinámica
+   ========================================================================== */
+.tabla-colaboradores {
+    width: 100%;
+    max-width: 800px; /* Le da una extensión cómoda para visualizar los datos */
+    background-color: var(--card-bg);
+    border-collapse: collapse; /* Elimina doble borde intercelular */
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Mantiene los bordes redondeados en las esquinas */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-top: 10px;
+}
+
+.tabla-colaboradores thead {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.tabla-colaboradores th {
+    font-weight: 600;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.tabla-colaboradores td {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Efecto cebra para las filas pares y hover para mejorar la lectura */
+.tabla-colaboradores tbody tr:nth-child(even) {
+    background-color: #f9fafb; 
+}
+
+.tabla-colaboradores tbody tr:hover {
+    background-color: #f3f4f6;
+    transition: background-color 0.2s ease;
+}
+
+/* Estilo para cuando la tabla está vacía (opcional) */
+.tabla-colaboradores tbody:empty::after {
+    content: "No hay colaboradores registrados actualmente.";
+    display: block;
+    padding: 20px;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
 }
